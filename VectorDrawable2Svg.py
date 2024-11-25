@@ -56,7 +56,6 @@ def get_color(value, depth=1):
 def convert_paths(vd_container, svg_container, svg_xml):
     vd_paths = vd_container.getElementsByTagName('path')
     for vd_path in vd_paths:
-        # only iterate in the first level
         if vd_path.parentNode == vd_container:
             svg_path = svg_xml.createElement('path')
             svg_path.attributes['d'] = vd_path.attributes[
@@ -65,6 +64,9 @@ def convert_paths(vd_container, svg_container, svg_xml):
             if vd_path.hasAttribute('android:fillColor'):
                 svg_path.attributes['fill'] = get_color(
                     vd_path.attributes['android:fillColor'].value)
+                if vd_path.hasAttribute('android:fillAlpha'):
+                    svg_path.attributes['fill-opacity'] = vd_path.attributes[
+                        'android:fillAlpha'].value
             else:
                 svg_path.attributes['fill'] = 'none'
 
@@ -83,8 +85,12 @@ def convert_paths(vd_container, svg_container, svg_xml):
             if vd_path.hasAttribute('android:strokeColor'):
                 svg_path.attributes['stroke'] = get_color(
                     vd_path.attributes['android:strokeColor'].value)
+                if vd_path.hasAttribute('android:strokeAlpha'):
+                    svg_path.attributes['stroke-opacity'] = vd_path.attributes[
+                        'android:strokeAlpha'].value
 
             svg_container.appendChild(svg_path)
+
 
 
 # define the function which converts a vector drawable to a svg

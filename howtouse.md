@@ -1,0 +1,1 @@
+python3 VectorDrawable2Svg.py --output-dir ./output_svgs ./input_vectors/*.xml
